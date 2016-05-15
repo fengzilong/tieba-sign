@@ -1,2 +1,5 @@
-# tieba-sign
-贴吧签到
+## TiebaSign
+
+### 如何使用
+
+npm i && npm start
