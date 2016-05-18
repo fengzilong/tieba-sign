@@ -12,7 +12,9 @@
     "ora": "^0.2.1",
     "babel": "^6.5.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "riot-observable": "^2.3.14"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"

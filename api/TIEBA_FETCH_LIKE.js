@@ -1,11 +1,10 @@
 import request from 'request';
-import gbk2utf8 from './gbk2utf8';
-import spin from './spin';
-import jar from './jar';
+import gbk2utf8 from '../util/gbk2utf8';
+import spin from '../util/spin';
+import jar from '../jar';
 
 const MAX_SIGN_COUNT = 9999;
 
-let links = [];
 let names = [];
 let totalNum;
 let pageNum = 1;
@@ -31,14 +30,8 @@ function fetchLikeOne() {
 
 				if( matched ) {
 					for(
-						let i = 0; i < matched.length && links.length < MAX_SIGN_COUNT; i++
+						let i = 0; i < matched.length && names.length < MAX_SIGN_COUNT; i++
 					) {
-						links.push(
-							'http://tieba.baidu.com/mo/m?kw=' +
-							matched[ i ]
-								.replace('<a href="/f?kw=', '')
-								.replace(/"[ ]title.*/, '')
-						);
 						names.push( matched[ i ].replace(/<a[ ]href=".*?">/, '') );
 					}
 				}
@@ -52,12 +45,12 @@ function fetchLikeOne() {
 					}
 				}
 
-				resolve( { names, links } );
+				resolve( names );
 			})
 		}, 1000);
 	}).then(( ...args ) => {
-		let printed = `获取喜欢的贴吧列表 ${pageNum}/${totalNum}页`;
-		spin( printed );
+		let content = `获取喜欢的贴吧列表 ${pageNum}/${totalNum}页`;
+		spin( content );
 
 		// 判断是否存在下一页
 		if( pageNum < totalNum ) {
@@ -65,7 +58,7 @@ function fetchLikeOne() {
 			return fetchLikeOne();
 		} else {
 			spin.stop();
-			console.log( printed );
+			console.log( content );
 			return Promise.resolve( ...args );
 		}
 	});

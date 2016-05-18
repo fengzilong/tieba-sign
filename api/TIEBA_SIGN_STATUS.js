@@ -1,5 +1,5 @@
 import request from 'request';
-import jar from './jar';
+import jar from '../jar';
 
 function signStatus ( kw ) {
 	const url = `http://tieba.baidu.com/mo/m?kw=${kw}`;
