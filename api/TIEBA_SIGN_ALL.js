@@ -1,6 +1,3 @@
-import request from 'request';
-import jar from '../jar';
-import md5 from '../util/md5';
 import SIGN_ONE from './TIEBA_SIGN_ONE';
 import observable from 'riot-observable';
 
@@ -10,25 +7,8 @@ const SIGN_FAIL = -1;
 const SIGN_SUCCESS = 0;
 const SIGNED = 1;
 
-const encode = data => {
-	const SIGN_KEY = "tiebaclient!!!";
-	let s = "";
-	for( let i in data ) {
-		s += i + '=' + data[i];
-	}
-	let sign = md5( decodeURIComponent( s ) + SIGN_KEY );
-	let result = '';
-	for( let i in data ) {
-		result += '&' + i + '=' + data[i];
-	}
-	result += '&sign=' + sign;
-	return result.replace( '&', '' );
-};
-
 let sign = names => {
-	const url = `http://c.tieba.baidu.com/c/c/forum/sign`;
 	let i = 0;
-
 	let signed = [];
 	let signFailed = [];
 	let signSuccess = [];
@@ -39,7 +19,7 @@ let sign = names => {
 	}
 
 	if( names.length === 0 ) {
-		return Promise.reject( 'no liked tieba' );
+		return Promise.reject( 'no liked tieba found' );
 	}
 
 	function signNext( name ) {

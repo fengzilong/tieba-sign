@@ -1,3 +1,6 @@
+import request from 'request';
+import jar from '../jar';
+import md5 from '../util/md5';
 import SIGN_STATUS from './TIEBA_SIGN_STATUS';
 
 // sign status
@@ -7,6 +10,22 @@ const SIGN_SUCCESS = 0;
 const SIGNED = 1;
 // sign interval
 const SIGN_INTERVAL = 638;
+// others
+const url = `http://c.tieba.baidu.com/c/c/forum/sign`;
+const encode = data => {
+	const SIGN_KEY = "tiebaclient!!!";
+	let s = "";
+	for( let i in data ) {
+		s += i + '=' + data[i];
+	}
+	let sign = md5( decodeURIComponent( s ) + SIGN_KEY );
+	let result = '';
+	for( let i in data ) {
+		result += '&' + i + '=' + data[i];
+	}
+	result += '&sign=' + sign;
+	return result.replace( '&', '' );
+};
 
 const signOne = name => {
 	return new Promise(( resolve, reject ) => {

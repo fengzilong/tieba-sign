@@ -41,6 +41,7 @@ function fetchLikeOne() {
 					if( matched ) {
 						totalNum = matched[ 1 ] * 1;
 					} else {
+						// 只有一页时totalNum也会匹配不到
 						totalNum = 1;
 					}
 				}
@@ -49,9 +50,8 @@ function fetchLikeOne() {
 			})
 		}, 1000);
 	}).then(( ...args ) => {
-		let content = `获取喜欢的贴吧列表 ${pageNum}/${totalNum}页`;
+		const content = `获取喜欢的贴吧列表 ${pageNum}/${totalNum}页`;
 		spin( content );
-
 		// 判断是否存在下一页
 		if( pageNum < totalNum ) {
 			pageNum++;

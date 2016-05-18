@@ -18,17 +18,21 @@ SIGN_ALL.on('signed', ( name, i ) => {
 });
 
 FETCH_LIKE().then(names => {
-	console.log( `开始签到『${names.length}个贴吧』` );
-	console.log( '-----------------' );
-	return SIGN_ALL( names ).then(({ signNotSupported, signFailed, signed }) => {
+	if( names.length > 0 ) {
+		console.log( `开始签到『${names.length}个贴吧』` );
 		console.log( '-----------------' );
-		console.log( `无法签到：${signNotSupported.length}` );
-		console.log( `签到成功：${signed.length}` );
-		console.log( `签到失败：${signFailed.length}` );
-		if( signFailed.length > 0 ) {
+		return SIGN_ALL( names ).then(({ signNotSupported, signFailed, signSuccess, signed }) => {
 			console.log( '-----------------' );
-			console.log( `签到失败的贴吧如下：` );
-			console.log( signFailed.join( ',' ) );
-		}
-	});
+			console.log( `无法签到：${signNotSupported.length}` );
+			console.log( `签到成功：${signed.length + signSuccess.length}` );
+			console.log( `签到失败：${signFailed.length}` );
+			if( signFailed.length > 0 ) {
+				console.log( '-----------------' );
+				console.log( `签到失败的贴吧如下：` );
+				console.log( signFailed.join( ',' ) );
+			}
+		});
+	} else {
+		console.log( 'cookie无效或未关注任何贴吧' );
+	}
 });
