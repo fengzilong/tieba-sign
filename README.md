@@ -2,5 +2,5 @@
 
 ### 如何使用
 
-1. 打开bduss.js填写cookie
+1. 在bduss.js填写cookie中的BDUSS
 2. npm i && npm start
