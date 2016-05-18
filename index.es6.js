@@ -28,7 +28,7 @@ FETCH_LIKE().then(names => {
 		if( signFailed.length > 0 ) {
 			console.log( '-----------------' );
 			console.log( `签到失败的贴吧如下：` );
-			console.log( signFailed.join(' - ') );
+			console.log( signFailed.join( ',' ) );
 		}
 	});
 });
