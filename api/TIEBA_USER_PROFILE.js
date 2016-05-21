@@ -18,7 +18,7 @@ export default () => new Promise(( resolve, reject ) => {
 		if( json && json.error === '' ) {
 			resolve( json.data );
 		} else {
-			reject();
+			reject( 'cookie invalid' );
 		}
 	})
 });
