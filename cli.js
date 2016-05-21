@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var fs = require('fs');
 
 var babelrc = fs.readFileSync( './.babelrc' );
@@ -12,4 +13,4 @@ try {
 
 require( 'babel-core/register' )( config );
 
-require('./index.es6');
+require('./cli.es6');

@@ -1,7 +1,10 @@
 import FETCH_LIKE from './api/TIEBA_FETCH_LIKE';
 import SIGN_ALL from './api/TIEBA_SIGN_ALL';
-
+import USER_PROFILE from './api/TIEBA_USER_PROFILE';
+import { SIGN_CONF_PATH } from './config';
+import hash from './hash';
 import es6promise from 'es6-promise';
+import fs from 'fs';
 es6promise.polyfill();
 
 SIGN_ALL.on('sign-not-support', ( name, i ) => {
@@ -17,22 +20,32 @@ SIGN_ALL.on('signed', ( name, i ) => {
 	console.log( `${i+1}、${name} 已签到` );
 });
 
-FETCH_LIKE().then(names => {
-	if( names.length > 0 ) {
-		console.log( `开始签到『${names.length}个贴吧』` );
-		console.log( '-----------------' );
-		return SIGN_ALL( names ).then(({ signNotSupported, signFailed, signSuccess, signed }) => {
-			console.log( '-----------------' );
-			console.log( `无法签到：${signNotSupported.length}` );
-			console.log( `签到成功：${signed.length + signSuccess.length}` );
-			console.log( `签到失败：${signFailed.length}` );
-			if( signFailed.length > 0 ) {
-				console.log( '-----------------' );
-				console.log( `签到失败的贴吧如下：` );
-				console.log( signFailed.join( ',' ) );
-			}
-		});
-	} else {
-		console.log( 'cookie无效或未关注任何贴吧' );
-	}
-});
+USER_PROFILE()
+	.then(profile => {
+		console.log( `开始用户"${profile.user_name_show}"的签到` );
+	}, () => {
+		return Promise.reject();
+	})
+	.then(() => FETCH_LIKE(), () => {
+		console.log( '获取用户信息失败' );
+	})
+	.then(names => {
+		if( names.length > 0 ) {
+			console.log( `开始签到『${names.length}个贴吧』` );
+		} else {
+			console.log( '未关注任何贴吧' );
+		}
+		return names;
+	})
+	.then(names => {
+		return SIGN_ALL( names );
+	})
+	.then(({ signNotSupported, signFailed, signSuccess, signed }) => {
+		console.log( `无法签到：${signNotSupported.length}` );
+		console.log( `签到成功：${signed.length + signSuccess.length}` );
+		console.log( `签到失败：${signFailed.length}` );
+		if( signFailed.length > 0 ) {
+			console.log( `签到失败的贴吧如下：` );
+			console.log( signFailed.join( ',' ) );
+		}
+	});
