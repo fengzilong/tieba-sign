@@ -1,37 +1,64 @@
+import USER_PROFILE from './api/TIEBA_USER_PROFILE';
 import FETCH_LIKE from './api/TIEBA_FETCH_LIKE';
 import SIGN_ALL from './api/TIEBA_SIGN_ALL';
-import USER_PROFILE from './api/TIEBA_USER_PROFILE';
 import { SIGN_CONF_PATH } from './config';
-import getDate from './util/date';
 import es6promise from 'es6-promise';
-import path from 'path';
+import getDate from './util/date';
 import mkdirp from 'mkdirp';
+import path from 'path';
 import fs from 'fs';
-es6promise.polyfill();
 
-const cwd = process.cwd();
+es6promise.polyfill();
 
 let username;
 let date;
 let folder;
 
-/*
-fs.writeFileSync( path.resolve( folder, 'failed.json' ), JSON.stringify( signFailed, 0, 4 ) );
-fs.writeFileSync( path.resolve( folder, 'not-support.json' ), JSON.stringify( signNotSupported, 0, 4 ) );
-fs.writeFileSync( path.resolve( folder, 'signed.json' ), JSON.stringify( signed.concat( signSuccess ), 0, 4 ) );
-*/
+const cwd = process.cwd();
+const save = ( p, v ) => {
+	if( fs.existsSync( p ) ) {
+		let arr = fs.readFileSync( p, 'utf-8' );
+		try {
+			arr = JSON.parse( arr );
+		} catch( e ) {
+			arr = [];
+		}
+
+		if( !~arr.indexOf( v ) ) {
+			arr.unshift( v );
+		}
+
+		fs.writeFileSync( p, JSON.stringify( arr, 0, 4 ) );
+	}
+};
+const load = p => {
+	let arr = [];
+	if( fs.existsSync( p ) ) {
+		let content = fs.readFileSync( p, 'utf-8' );
+		try {
+			arr = JSON.parse( content );
+		} catch( e ) {
+			arr = [];
+		}
+	}
+
+	return arr;
+};
 
 SIGN_ALL.on('sign-not-support', ( name, i ) => {
 	console.log( `${i+1}、${name} 不支持签到` );
+	save( path.resolve( folder, 'not-support.json' ), name );
 });
 SIGN_ALL.on('sign-failed', ( name, i, reason ) => {
 	console.log( `${i+1}、${name} 签到失败` );
 });
 SIGN_ALL.on('sign-success', ( name, i, point ) => {
 	console.log( `${i+1}、${name} 签到成功，经验+${point}` );
+	save( path.resolve( folder, 'signed.json' ), name );
 });
 SIGN_ALL.on('signed', ( name, i ) => {
 	console.log( `${i+1}、${name} 已签到` );
+	save( path.resolve( folder, 'signed.json' ), name );
 });
 
 USER_PROFILE()
@@ -49,6 +76,13 @@ USER_PROFILE()
 
 		if( !fs.existsSync( folder ) ) {
 			mkdirp.sync( folder );
+		}
+
+		if( !fs.existsSync( path.resolve( folder, 'not-support.json' ) ) ) {
+			fs.writeFileSync( path.resolve( folder, 'not-support.json' ), '[]' );
+		}
+		if( !fs.existsSync( path.resolve( folder, 'signed.json' ) ) ) {
+			fs.writeFileSync( path.resolve( folder, 'signed.json' ), '[]' );
 		}
 	})
 	.then(() => {
@@ -74,12 +108,32 @@ USER_PROFILE()
 		return Promise.resolve( names );
 	})
 	.then(names => {
-		if( names.length > 0 ) {
-			console.log( `开始签到『${names.length}个贴吧』` );
+		// 过滤不支持 && 已签到的贴吧
+		let signed = load( path.resolve( folder, 'signed.json' ) );
+		let notSupport = load( path.resolve( folder, 'not-support.json' ) );
+		let exclude = signed.concat( notSupport );
+		let filtered = [];
+		for( let i = 0, len = names.length; i < len; i++ ) {
+			if( !~exclude.indexOf( names[ i ] ) ) {
+				filtered.push( names[ i ] );
+			}
+		}
+		return Promise.resolve({
+			all: names,
+			filtered,
+			signed,
+			notSupport,
+		});
+	})
+	.then(({ all, filtered, signed, notSupport }) => {
+		if( all.length > 0 ) {
+			console.log( `已签到『${signed.length}个贴吧』` );
+			console.log( `无法签到『${notSupport.length}个贴吧』` );
+			console.log( `开始签到『${filtered.length}个贴吧』` );
 		} else {
 			console.log( '未关注任何贴吧' );
 		}
-		return names;
+		return filtered;
 	})
 	.then(names => SIGN_ALL( names ))
 	.then(({ signNotSupported, signFailed, signSuccess, signed }) => {
