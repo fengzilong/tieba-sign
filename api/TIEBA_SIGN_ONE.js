@@ -1,7 +1,7 @@
 import request from 'request';
-import jar from '../jar';
 import md5 from '../util/md5';
 import SIGN_STATUS from './TIEBA_SIGN_STATUS';
+import jar from '../jar';
 
 // sign status
 const SIGN_NOT_SUPPORT = -2;

@@ -14,7 +14,8 @@
     "riot-observable": "^2.3.14"
   },
   "devDependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.9.0",
+    "mkdirp": "^0.5.1"
   },
   "scripts": {
     "start": "node index.js",

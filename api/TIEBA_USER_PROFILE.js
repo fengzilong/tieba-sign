@@ -1,6 +1,6 @@
 import request from 'request';
-import jar from '../jar';
 import gbk2utf8 from '../util/gbk2utf8';
+import jar from '../jar';
 
 const url = 'http://tieba.baidu.com/f/user/json_userinfo';
 export default () => new Promise(( resolve, reject ) => {
