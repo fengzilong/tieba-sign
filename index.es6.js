@@ -12,6 +12,7 @@ es6promise.polyfill();
 
 let username;
 let date;
+let userfolder;
 let folder;
 
 const cwd = process.cwd();
@@ -72,6 +73,7 @@ USER_PROFILE()
 	.then(() => {
 		// 创建用户文件夹
 		date = getDate();
+		userfolder = path.resolve( SIGN_CONF_PATH, `${username}/` );
 		folder = path.resolve( SIGN_CONF_PATH, `${username}/${date}/` );
 
 		if( !fs.existsSync( folder ) ) {
@@ -86,7 +88,7 @@ USER_PROFILE()
 		}
 	})
 	.then(() => {
-		let allPath = path.resolve( folder, 'all.json' );
+		let allPath = path.resolve( userfolder, 'all.json' );
 		if( fs.existsSync( allPath ) ) {
 			let content = fs.readFileSync( allPath, 'utf-8' );
 			try {
@@ -101,7 +103,7 @@ USER_PROFILE()
 	})
 	.then(names => {
 		// 如果贴吧列表未保存
-		let allPath = path.resolve( folder, 'all.json' );
+		let allPath = path.resolve( userfolder, 'all.json' );
 		if( !fs.existsSync( allPath ) ) {
 			fs.writeFileSync( allPath, JSON.stringify( names, 0, 4 ) );
 		}

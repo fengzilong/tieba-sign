@@ -1,6 +1,7 @@
 import request from 'request';
-import bduss from './bduss';
+import fs from 'fs';
 
+const bduss = fs.readFileSync( './.bduss', 'utf-8' );
 let c = `BDUSS=${bduss}`;
 let c1 = request.cookie( c );
 let c2 = request.cookie( c );

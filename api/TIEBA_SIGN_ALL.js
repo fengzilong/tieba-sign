@@ -19,7 +19,8 @@ let sign = names => {
 	}
 
 	if( names.length === 0 ) {
-		return Promise.reject( 'no liked tieba found' );
+		throw new Error( '无待签到贴吧' );
+		return;
 	}
 
 	function signNext( name ) {

@@ -4,7 +4,7 @@
 
 1. 安装node环境
 2. 安装依赖 `npm i`
-3. 在`bduss.js`填写`BDUSS`
+3. 新建`.bduss`并填写`BDUSS`
 4. `npm start`
 
 ## TODO
