@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "tieba-sign",
   "main": "index.js",
+  "bin": "cli.js",
   "dependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.8.0",
