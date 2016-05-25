@@ -15,7 +15,6 @@ let date;
 let userfolder;
 let folder;
 
-const cwd = process.cwd();
 const save = ( p, v ) => {
 	if( fs.existsSync( p ) ) {
 		let arr = fs.readFileSync( p, 'utf-8' );

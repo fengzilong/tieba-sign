@@ -86,3 +86,5 @@ program
 // 	});
 
 program.parse( process.argv );
+
+require( './index.es6' );

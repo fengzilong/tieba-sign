@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-var fs = require('fs');
+var fs = require( 'fs' );
+var path = require( 'path' );
 
-var babelrc = fs.readFileSync( './.babelrc' );
+var babelrc = fs.readFileSync( path.resolve( __dirname, '.babelrc' ) );;
 var config;
 
 try {
