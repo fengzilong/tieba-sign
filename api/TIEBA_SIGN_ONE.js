@@ -52,7 +52,12 @@ const signOne = name => {
 						};
 
 						request({ method: 'POST', url, jar, encoding: 'binary', form: encode( data ) }, ( error, response, body ) => {
-							const json = JSON.parse( body );
+							let json;
+							try {
+								json = JSON.parse( body );
+							} catch( e ) {
+								json = {};
+							}
 							if( json.error_code === '0' ) {
 								resolve({
 									status: SIGN_SUCCESS,
