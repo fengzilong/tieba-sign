@@ -9,7 +9,7 @@ function signStatus ( kw ) {
 	};
 
 	return new Promise(( resolve, reject ) => {
-		request({ url, jar, encoding: 'utf-8', headers}, ( error, response, body ) => {
+		request({ url, jar: jar(), encoding: 'utf-8', headers}, ( error, response, body ) => {
 			let rightPart = body.match( /<td[ ]style="text-align:right;".*?<\/td>/ );
 
 			if(

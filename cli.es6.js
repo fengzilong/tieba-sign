@@ -3,17 +3,18 @@ import path from 'path';
 import program from 'commander';
 import date from './util/date';
 import { SIGN_CONF_PATH } from './config';
+import sign from './index.es6';
 
-const load = ( p, d ) => {
+const load = ( filepath, defaultValue ) => {
 	let ret;
-	if( fs.existsSync( p ) ) {
-		ret = fs.readFileSync( p, 'utf-8' );
+	if( fs.existsSync( filepath ) ) {
+		ret = fs.readFileSync( filepath, 'utf-8' );
 		try {
 			ret = JSON.parse( ret );
 		} catch( e ) {
 		}
 	}
-	return ret || d;
+	return ret || defaultValue;
 };
 
 const loadJSON = p => {
@@ -78,13 +79,17 @@ program
 //
 // 	});
 
-// program
-// 	.command( 'cookie <cookie>' )
-// 	.action(cookie => {
-// 		// valid username of cookie
-//
-// 	});
+program
+	.command( 'cookie <bduss>' )
+	.action(cookie => {
+		// TODO: valid username of cookie
+		console.log( cookie );
+		const COOKIE_PATH = path.resolve( SIGN_CONF_PATH, '.cookie' );
+		fs.writeFileSync( COOKIE_PATH, cookie, 'utf-8' );
+	});
 
-program.parse( process.argv );
-
-require( './index.es6' );
+if( process.argv && process.argv.length > 2 ) {
+	program.parse( process.argv );
+} else {
+	sign();
+}

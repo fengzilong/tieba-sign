@@ -51,7 +51,7 @@ const signOne = name => {
 							"tbs" : tbs
 						};
 
-						request({ method: 'POST', url, jar, encoding: 'binary', form: encode( data ) }, ( error, response, body ) => {
+						request({ method: 'POST', url, jar: jar(), encoding: 'binary', form: encode( data ) }, ( error, response, body ) => {
 							let json;
 							try {
 								json = JSON.parse( body );

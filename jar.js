@@ -1,14 +1,24 @@
 import request from 'request';
 import fs from 'fs';
 import path from 'path';
+import { SIGN_CONF_PATH } from './config';
 
-const bduss = fs.readFileSync( path.resolve( __dirname, '.bduss' ), 'utf-8' );
-let c = `BDUSS=${bduss}`;
-let c1 = request.cookie( c );
-let c2 = request.cookie( c );
+const jar = request.jar();
 
-let jar = request.jar();
-jar.setCookie( c1, `http://tieba.baidu.com` );
-jar.setCookie( c2, `http://c.tieba.baidu.com` );
+export default () => {
+	const COOKIE_PATH = path.resolve( SIGN_CONF_PATH, '.cookie' );
 
-export default jar;
+	if( fs.existsSync( COOKIE_PATH ) ) {
+		const bduss = fs.readFileSync( COOKIE_PATH, 'utf-8' );
+		const c = `BDUSS=${bduss}`;
+		const c1 = request.cookie( c );
+		const c2 = request.cookie( c );
+		
+		jar.setCookie( c1, `http://tieba.baidu.com` );
+		jar.setCookie( c2, `http://c.tieba.baidu.com` );
+	} else {
+		console.log( '请先设置cookie\nCommand: tieba-sign cookie <your cookie>' );
+		process.exit();
+	}
+	return jar;
+};

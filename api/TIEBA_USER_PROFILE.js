@@ -7,7 +7,7 @@ export default () => new Promise(( resolve, reject ) => {
 	request({
 		method: 'GET',
 		url,
-		jar,
+		jar: jar(),
 		encoding: 'binary',
 		qs: {
 			_: +new Date()

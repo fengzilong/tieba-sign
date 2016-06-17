@@ -19,7 +19,7 @@ function fetchLikeOne() {
 
 	return new Promise(( resolve, reject ) => {
 		setTimeout(() => {
-			request({ url, jar, encoding: 'binary' }, ( error, response, body ) => {
+			request({ url, jar: jar(), encoding: 'binary' }, ( error, response, body ) => {
 				body = gbk2utf8( body );
 				body = body.replace(/[	]/g, '')
 					.replace(/<td>\r\n/g, '<td>')

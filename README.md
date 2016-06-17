@@ -1,8 +1,29 @@
 # TiebaSign
 
-## 如何使用
+## Installation
 
-1. 安装node环境
-2. 安装依赖 `npm i`
-3. 新建`.bduss`并填写`BDUSS`
-4. `npm start`
+```bash
+$ npm i tieba-sign -g
+```
+
+## Usage
+
+### Basic
+
+```bash
+# set your cookie
+$ tieba-sign cookie <paste your bduss here>
+# start sign
+# you can also use `ts` for short
+$ tieba-sign
+```
+
+### All Commands
+
+Command | Description
+------- | -----------
+tieba-sign | sign
+ts | short for tieba-sign
+ts cookie <bduss> | set cookie
+ts status [username] | show sign status
+ts list | list all users

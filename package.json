@@ -1,9 +1,15 @@
 {
   "name": "tieba-sign",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "tieba-sign",
-  "main": "index.js",
-  "bin": "cli.js",
+  "main": "cli.js",
+  "bin": {
+    "tieba-sign": "cli.js",
+    "ts": "cli.js"
+  },
+  "scripts": {
+    "start": "node cli.js"
+  },
   "dependencies": {
     "babel": "^6.5.2",
     "babel-core": "^6.8.0",
@@ -17,10 +23,6 @@
 	"mkdirp": "^0.5.1"
   },
   "devDependencies": {
-  },
-  "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "tieba",
