@@ -1,6 +1,6 @@
 {
   "name": "tieba-sign",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "tieba-sign",
   "main": "cli.js",
   "bin": {
@@ -19,11 +19,10 @@
     "request": "^2.72.0",
     "ora": "^0.2.1",
     "riot-observable": "^2.3.14",
-	"commander": "^2.9.0",
-	"mkdirp": "^0.5.1"
+    "commander": "^2.9.0",
+    "mkdirp": "^0.5.1"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "keywords": [
     "tieba",
     "sign"
