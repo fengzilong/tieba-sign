@@ -20,7 +20,6 @@ let sign = names => {
 
 	if( names.length === 0 ) {
 		throw new Error( '无待签到贴吧' );
-		return;
 	}
 
 	function signNext( name ) {
