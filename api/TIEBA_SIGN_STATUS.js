@@ -1,15 +1,14 @@
-import request from 'request';
-import jar from '../jar';
+import request from '../request';
 
 function signStatus ( kw ) {
-	const url = `http://tieba.baidu.com/mo/m?kw=${kw}`;
+	const url = `http://tieba.baidu.com/mo/m?kw=${encodeURIComponent( kw )}`;
 	const headers = {
 		"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 		"User-Agent" : "Mozilla/5.0 (SymbianOS/9.3; Series60/3.2 NokiaE72-1/021.021; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/525 (KHTML, like Gecko) Version/3.0 BrowserNG/7.1.16352"
 	};
 
 	return new Promise(( resolve, reject ) => {
-		request({ url, jar: jar(), encoding: 'utf-8', headers}, ( error, response, body ) => {
+		request({ url, encoding: 'utf-8', headers}, ( error, response, body ) => {
 			let rightPart = body.match( /<td[ ]style="text-align:right;".*?<\/td>/ );
 
 			if(

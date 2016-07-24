@@ -1,13 +1,11 @@
-import request from 'request';
+import request from '../request';
 import gbk2utf8 from '../util/gbk2utf8';
-import jar from '../jar';
 
 const url = 'http://tieba.baidu.com/f/user/json_userinfo';
 export default () => new Promise(( resolve, reject ) => {
 	request({
 		method: 'GET',
 		url,
-		jar: jar(),
 		encoding: 'binary',
 		qs: {
 			_: +new Date()
@@ -18,7 +16,7 @@ export default () => new Promise(( resolve, reject ) => {
 		if( json && json.error === '' ) {
 			resolve( json.data );
 		} else {
-			reject( 'cookie invalid' );
+			reject( new Error( '获取用户信息失败' ) );
 		}
 	})
 });

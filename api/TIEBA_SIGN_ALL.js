@@ -15,7 +15,7 @@ let sign = names => {
 	let signNotSupported = [];
 
 	if( !Array.isArray( names ) ) {
-		return Promise.reject( 'need pass an array as param' );
+		return Promise.reject( new Error( 'need pass an array as param' ) );
 	}
 
 	if( names.length === 0 ) {

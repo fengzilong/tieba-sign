@@ -1,7 +1,6 @@
-import request from 'request';
+import request from '../request';
 import gbk2utf8 from '../util/gbk2utf8';
 import spin from '../util/spin';
-import jar from '../jar';
 
 const MAX_SIGN_COUNT = 9999;
 
@@ -19,7 +18,7 @@ function fetchLikeOne() {
 
 	return new Promise(( resolve, reject ) => {
 		setTimeout(() => {
-			request({ url, jar: jar(), encoding: 'binary' }, ( error, response, body ) => {
+			request({ url, encoding: 'binary' }, ( error, response, body ) => {
 				body = gbk2utf8( body );
 				body = body.replace(/[	]/g, '')
 					.replace(/<td>\r\n/g, '<td>')

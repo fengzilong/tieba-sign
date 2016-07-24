@@ -1,7 +1,6 @@
-import request from 'request';
+import request from '../request';
 import md5 from '../util/md5';
 import SIGN_STATUS from './TIEBA_SIGN_STATUS';
-import jar from '../jar';
 
 // sign status
 const SIGN_NOT_SUPPORT = -2;
@@ -51,7 +50,7 @@ const signOne = name => {
 							"tbs" : tbs
 						};
 
-						request({ method: 'POST', url, jar: jar(), encoding: 'binary', form: encode( data ) }, ( error, response, body ) => {
+						request({ method: 'POST', url, encoding: 'binary', form: encode( data ) }, ( error, response, body ) => {
 							let json;
 							try {
 								json = JSON.parse( body );

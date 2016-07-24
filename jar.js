@@ -13,9 +13,11 @@ export default () => {
 		const c = `BDUSS=${bduss}`;
 		const c1 = request.cookie( c );
 		const c2 = request.cookie( c );
-		
+		const c3 = request.cookie( `novel_client_guide=1` )
+
 		jar.setCookie( c1, `http://tieba.baidu.com` );
 		jar.setCookie( c2, `http://c.tieba.baidu.com` );
+		jar.setCookie( c3, `http://tieba.baidu.com` );
 	} else {
 		console.log( '请先设置cookie\nCommand: tieba-sign cookie <your cookie>' );
 		process.exit();

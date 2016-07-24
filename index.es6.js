@@ -2,6 +2,7 @@ import es6promise from 'es6-promise';
 import mkdirp from 'mkdirp';
 import path from 'path';
 import fs from 'fs';
+import NO_AD from './api/NO_APP_DOWNLOAD_AD';
 import USER_PROFILE from './api/TIEBA_USER_PROFILE';
 import FETCH_LIKE from './api/TIEBA_FETCH_LIKE';
 import SIGN_ALL from './api/TIEBA_SIGN_ALL';
@@ -62,13 +63,11 @@ SIGN_ALL.on('signed', ( name, i ) => {
 });
 
 export default () => {
-	USER_PROFILE()
+	NO_AD()
+		.then(() => USER_PROFILE())
 		.then(profile => {
 			username = profile.user_name_show;
 			console.log( `开始用户"${username}"的签到` );
-		}, () => {
-			console.log( '获取用户信息失败' );
-			throw new Error( 'error occurs when get user profile' );
 		})
 		.then(() => {
 			// 创建用户文件夹
