@@ -1,9 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import program from 'commander';
+import updateNotifier from 'update-notifier';
 import date from './util/date';
 import { SIGN_CONF_PATH } from './config';
 import sign from './index.es6';
+import pkg from './package.json';
+
+updateNotifier({ pkg }).notify();
 
 const load = ( filepath, defaultValue ) => {
 	let ret;
