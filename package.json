@@ -8,12 +8,15 @@
     "ts": "cli.js"
   },
   "scripts": {
-    "start": "node cli.js"
+    "dev": "onchange \"src\" -i -v -- npm run build",
+    "build": "bubleup ./src/index.js -d dist --format cjs --name tieba-sign"
+  },
+  "bubleup": {
+    "paths": {
+      "request": "request"
+    }
   },
   "dependencies": {
-    "babel": "^6.5.2",
-    "babel-core": "^6.8.0",
-    "babel-preset-es2015": "^6.6.0",
     "commander": "^2.9.0",
     "es6-promise": "^3.0.2",
     "iconv-lite": "^0.4.13",

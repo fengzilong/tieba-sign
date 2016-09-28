@@ -1,7 +1,7 @@
-import path from 'path';
-import fs from 'fs';
+const path = require( 'path' );
+const fs = require( 'fs' );
 
-let SIGN_CONF_PATH = '';
+var SIGN_CONF_PATH = '';
 
 if( process.env.HOME && !process.env.HOMEPATH ) {
 	SIGN_CONF_PATH = path.resolve( process.env.HOME, '.tieba-sign' );
@@ -11,4 +11,4 @@ if( process.env.HOME && !process.env.HOMEPATH ) {
 	SIGN_CONF_PATH = path.resolve('/etc', '.tieba-sign');
 }
 
-export { SIGN_CONF_PATH };
+module.exports = { SIGN_CONF_PATH: SIGN_CONF_PATH };
