@@ -6,6 +6,7 @@ import SKIP_AD from './api/SKIP_AD';
 import USER_PROFILE from './api/USER_PROFILE';
 import FETCH_LIKE from './api/FETCH_LIKE';
 import SIGN_ALL from './api/SIGN_ALL';
+import log from './log';
 
 es6promise.polyfill();
 
@@ -44,18 +45,18 @@ const load = p => {
 };
 
 SIGN_ALL.on('sign-not-support', ( name, i ) => {
-	console.log( `${i+1}、${name} 不支持签到` );
+	log.error( `${name} 不支持签到` );
 	save( path.resolve( folder, 'not-support.json' ), name );
 });
 SIGN_ALL.on('sign-failed', ( name, i, reason ) => {
-	console.log( `${i+1}、${name} 签到失败` );
+	log.error( `${name} 签到失败` );
 });
 SIGN_ALL.on('sign-success', ( name, i, point ) => {
-	console.log( `${i+1}、${name} 签到成功，经验+${point}` );
+	log.success( `${name} 签到成功，经验+${point}` );
 	save( path.resolve( folder, 'signed.json' ), name );
 });
 SIGN_ALL.on('signed', ( name, i ) => {
-	console.log( `${i+1}、${name} 已签到` );
+	log.success( `${name} 已签到` );
 	save( path.resolve( folder, 'signed.json' ), name );
 });
 

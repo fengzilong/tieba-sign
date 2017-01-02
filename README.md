@@ -26,8 +26,8 @@ Command | Description
 ------- | -----------
 tieba-sign | sign
 ts | short for tieba-sign
-ts cookie <bduss> | set cookie
-ts status [username] | show sign status
+ts cookie < bduss > | set cookie
+ts status [ username ] | show sign status
 ts list | list all users
 
 ## License

@@ -11,6 +11,7 @@ var iconv = _interopDefault(require('iconv-lite'));
 var buffer = require('buffer');
 var ora = _interopDefault(require('ora'));
 var observable = _interopDefault(require('riot-observable'));
+var chalk = _interopDefault(require('chalk'));
 
 var SIGN_CONF_PATH = '';
 if( process.env.HOME && !process.env.HOMEPATH ) {
@@ -354,6 +355,19 @@ var sign = function (names) {
 
 observable( sign );
 
+function log( message, label ) {
+	console.log( (label + " " + (message.trim())) );
+}
+
+var log$1 = {
+	success: function success( message, label ) {
+		log( message, chalk.bgGreen.black( label ? (" " + label + " ") : ' SUCCESS ' ) );
+	},
+	error: function error( message, label ) {
+		log( message, chalk.bgRed.black( label ? (" " + label + " ") : ' ERROR ' ) );
+	},
+};
+
 es6promise.polyfill();
 
 var username;
@@ -391,18 +405,18 @@ var load = function (p) {
 };
 
 sign.on('sign-not-support', function ( name, i ) {
-	console.log( ((i+1) + "、" + name + " 不支持签到") );
+	log$1.error( (name + " 不支持签到") );
 	save( path.resolve( folder, 'not-support.json' ), name );
 });
 sign.on('sign-failed', function ( name, i, reason ) {
-	console.log( ((i+1) + "、" + name + " 签到失败") );
+	log$1.error( (name + " 签到失败") );
 });
 sign.on('sign-success', function ( name, i, point ) {
-	console.log( ((i+1) + "、" + name + " 签到成功，经验+" + point) );
+	log$1.success( (name + " 签到成功，经验+" + point) );
 	save( path.resolve( folder, 'signed.json' ), name );
 });
 sign.on('signed', function ( name, i ) {
-	console.log( ((i+1) + "、" + name + " 已签到") );
+	log$1.success( (name + " 已签到") );
 	save( path.resolve( folder, 'signed.json' ), name );
 });
 
