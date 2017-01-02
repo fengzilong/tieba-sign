@@ -1,4 +1,4 @@
-import SIGN_ONE from './TIEBA_SIGN_ONE';
+import SIGN_ONE from './SIGN_ONE';
 import observable from 'riot-observable';
 
 // sign status

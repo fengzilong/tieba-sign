@@ -1,11 +1,16 @@
+#!/usr/bin/env node
+'use strict';
+
 const fs = require( 'fs' );
 const path = require( 'path' );
 const program = require( 'commander' );
 const updateNotifier = require( 'update-notifier' );
-const date = require( './src/util/date' );
-const SIGN_CONF_PATH = require( './src/config' ).SIGN_CONF_PATH;
+const date = require( './date' );
+const config = require( './config' );
 const sign = require( './dist/tieba-sign.common' );
 const pkg = require( './package.json' );
+
+const SIGN_CONF_PATH = config.SIGN_CONF_PATH;
 
 updateNotifier({ pkg: pkg }).notify();
 
@@ -85,15 +90,18 @@ program
 
 program
 	.command( 'cookie <bduss>' )
-	.action(function( cookie ) {
+	.action( function( cookie ) {
 		// TODO: valid username of cookie
 		console.log( cookie );
 		const COOKIE_PATH = path.resolve( SIGN_CONF_PATH, '.cookie' );
 		fs.writeFileSync( COOKIE_PATH, cookie, 'utf-8' );
-	});
+	} );
 
 if( process.argv && process.argv.length > 2 ) {
 	program.parse( process.argv );
 } else {
-	sign();
+	sign( {
+		root: SIGN_CONF_PATH,
+		folder: date(),
+	} );
 }

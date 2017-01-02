@@ -11,7 +11,7 @@ const padZero = function( str, count ) {
 	return str;
 };
 
-module.exports = function() {
+module.exports = function () {
 	const t = new Date();
 	const y = t.getFullYear() + '';
 	const m = padZero( t.getMonth() + 1, 2 );

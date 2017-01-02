@@ -1,6 +1,6 @@
 import request from '../request';
 import md5 from '../util/md5';
-import SIGN_STATUS from './TIEBA_SIGN_STATUS';
+import SIGN_STATUS from './SIGN_STATUS';
 
 // sign status
 const SIGN_NOT_SUPPORT = -2;

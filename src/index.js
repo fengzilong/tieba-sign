@@ -2,17 +2,14 @@ import es6promise from 'es6-promise';
 import mkdirp from 'mkdirp';
 import path from 'path';
 import fs from 'fs';
-import NO_AD from './api/NO_APP_DOWNLOAD_AD';
-import USER_PROFILE from './api/TIEBA_USER_PROFILE';
-import FETCH_LIKE from './api/TIEBA_FETCH_LIKE';
-import SIGN_ALL from './api/TIEBA_SIGN_ALL';
-import { SIGN_CONF_PATH } from './config';
-import getDate from './util/date';
+import SKIP_AD from './api/SKIP_AD';
+import USER_PROFILE from './api/USER_PROFILE';
+import FETCH_LIKE from './api/FETCH_LIKE';
+import SIGN_ALL from './api/SIGN_ALL';
 
 es6promise.polyfill();
 
 let username;
-let date;
 let userfolder;
 let folder;
 
@@ -62,18 +59,23 @@ SIGN_ALL.on('signed', ( name, i ) => {
 	save( path.resolve( folder, 'signed.json' ), name );
 });
 
-export default () => {
-	NO_AD()
-		.then(() => USER_PROFILE())
-		.then(profile => {
+function clearConsole() {
+	process.stdout.write( '\x1bc' );
+	return Promise.resolve();
+}
+
+export default ( { root, folder: folderName } ) => {
+	clearConsole()
+		.then( SKIP_AD )
+		.then( USER_PROFILE )
+		.then( profile => {
 			username = profile.user_name_show;
 			console.log( `开始用户"${username}"的签到` );
-		})
+		} )
 		.then(() => {
 			// 创建用户文件夹
-			date = getDate();
-			userfolder = path.resolve( SIGN_CONF_PATH, `${username}/` );
-			folder = path.resolve( SIGN_CONF_PATH, `${username}/${date}/` );
+			userfolder = path.resolve( root, `${username}/` );
+			folder = path.resolve( root, `${username}/${folderName}/` );
 
 			if( !fs.existsSync( folder ) ) {
 				mkdirp.sync( folder );
