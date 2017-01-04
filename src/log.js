@@ -9,6 +9,6 @@ export default {
 		log( message, chalk.bgGreen.black( label ? ` ${ label } ` : ' SUCCESS ' ) );
 	},
 	error( message, label ) {
-		log( message, chalk.bgRed.black( label ? ` ${ label } ` : ' ERROR ' ) );
+		log( message, chalk.bgRed.black( label ? ` ${ label } ` : '  ERROR  ' ) );
 	},
 }
