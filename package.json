@@ -2,34 +2,26 @@
   "name": "tieba-sign",
   "version": "0.0.3",
   "description": "tieba-sign",
-  "main": "cli.js",
+  "main": "lib/index.js",
   "bin": {
-    "tieba-sign": "cli.js",
-    "ts": "cli.js"
+    "tieba-sign": "bin/tieba-sign.js",
+    "ts": "bin/tieba-sign.js"
   },
-  "scripts": {
-    "dev": "onchange \"src\" -i -v -- npm run build",
-    "build": "bubleup ./src/index.js -d dist --format cjs --name tieba-sign"
-  },
-  "bubleup": {
-    "paths": {
-      "request": "request"
-    }
-  },
+  "scripts": {},
   "dependencies": {
     "chalk": "^1.1.3",
+    "co": "^4.6.0",
     "commander": "^2.9.0",
     "es6-promise": "^3.0.2",
+    "eventemitter2": "^2.2.1",
     "iconv-lite": "^0.4.13",
-    "mkdirp": "^0.5.1",
+    "load-json-file": "^2.0.0",
     "ora": "^0.2.1",
     "request": "^2.72.0",
-    "riot-observable": "^2.3.14",
-    "update-notifier": "^1.0.2"
+    "update-notifier": "^1.0.2",
+    "write-json-file": "^2.0.0"
   },
   "devDependencies": {
-    "bubleup": "^0.5.2",
-    "onchange": "^3.2.1"
   },
   "keywords": [
     "tieba",

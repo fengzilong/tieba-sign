@@ -16,20 +16,17 @@ $ npm i tieba-sign -g
 
 ```bash
 # set cookie
-$ tieba-sign cookie <bduss>
-# start sign
-$ tieba-sign # or ts
+$ ts cookie <bduss>
+# sign
+$ ts
 ```
 
 ### All Commands
 
 Command | Description
 ------- | -----------
-tieba-sign | sign
-ts | short for tieba-sign
-ts cookie <bduss> | set cookie
-ts status [username] | show sign status
-ts list | list all users
+ts | start sign
+ts cookie <bduss> | save cookie
 
 ## License
 
