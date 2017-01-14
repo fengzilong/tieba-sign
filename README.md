@@ -25,8 +25,8 @@ $ ts
 
 Command | Description
 ------- | -----------
-ts | start sign
-ts cookie <bduss> | save cookie
+ts cookie | save cookie
+ts | sign
 
 ## License
 
