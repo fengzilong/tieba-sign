@@ -49,16 +49,13 @@ function main() {
 				'novel_client_guide=1',
 				'http://tieba.baidu.com'
 			],
-			[
-				'BDUSS=' + bduss,
-				'http://c.tieba.baidu.com'
-			]
 		] ) );
 
 		try {
-			const { username } = yield service.getProfile();
+			yield service.skipAd();
+			const { username } = yield service.getProfile( bduss );
 			console.log( '开始用户"' + username + '"的签到' );
-			const likes = yield service.getlikes();
+			const likes = yield service.getlikesFast( bduss );
 			yield service.sign( likes );
 		} catch( e ) {
 			throw e;
