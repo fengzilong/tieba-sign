@@ -9,20 +9,27 @@ const co = require( 'co' );
 const pkg = require( '../package.json' );
 const sign = require( '../lib' );
 
-updateNotifier( { pkg: pkg } ).notify();
+const cookieStore = sign.store.cookie;
+const recordsStore = sign.store.records;
 
-const saveCookie = sign.cache.saveCookie;
-const loadCookie = sign.cache.loadCookie;
+updateNotifier( { pkg: pkg } ).notify();
 
 program
 	.command( 'cookie <bduss>' )
-	.action( co.wrap( function * ( bduss ) {
-		try {
-			yield saveCookie( bduss );
-		} catch( e ) {
-			console.log( e );
-		}
-	} ) );
+	.action( function ( bduss ) {
+		cookieStore.save( {
+			bduss: bduss
+		} );
+		console.log( 'saved' );
+	} );
+
+program
+	.command( 'clear' )
+	.action( function () {
+		cookieStore.clear();
+		recordsStore.clear();
+		console.log( 'cleared' );
+	} );
 
 if ( process.argv && process.argv.length > 2 ) {
 	program.parse( process.argv );
@@ -36,7 +43,7 @@ function main() {
 	const createJar = sign.createJar;
 
 	co( function * () {
-		const cookie = yield loadCookie();
+		const cookie = cookieStore.load();
 		const bduss = cookie.bduss;
 
 		// setup Service
@@ -53,10 +60,22 @@ function main() {
 
 		try {
 			yield service.skipAd();
-			const { username } = yield service.getProfile( bduss );
-			console.log( '开始用户"' + username + '"的签到' );
+
+			const profile = yield service.getProfile( bduss );
+			const username = profile.username;
+			if ( username ) {
+				console.log( '开始用户 ' + username + ' 的签到' );
+			} else {
+				console.log( '开始签到' );
+			}
+
 			const likes = yield service.getlikesFast( bduss );
-			yield service.sign( likes );
+			const signed = recordsStore.load( 'signed' );
+			const filtered = likes.filter( function ( like ) {
+				return !~signed.indexOf( like );
+			} );
+			console.log( '共', likes.length, '个贴吧，已签到', signed.length, '个\n' );
+			yield service.sign( filtered );
 		} catch( e ) {
 			throw e;
 		}

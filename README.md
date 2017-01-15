@@ -27,6 +27,7 @@ Command | Description
 ------- | -----------
 ts cookie | save cookie
 ts | sign
+ts clear | clear, includes cookie
 
 ## License
 
