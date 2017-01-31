@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-const fs = require( 'fs' );
-const path = require( 'path' );
 const updateNotifier = require( 'update-notifier' );
 const program = require( 'commander' );
 const co = require( 'co' );
