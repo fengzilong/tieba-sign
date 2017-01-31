@@ -1,9 +1,10 @@
 const Conf = require( 'conf' );
-const _ = require( '../helpers' );
+const _ = require( '../../lib/helpers' );
 const getDate = _.getDate;
 
 const conf = new Conf( {
 	configName: 'records',
+	cwd: process.cwd(),
 } );
 
 module.exports = {

@@ -8,9 +8,8 @@ const program = require( 'commander' );
 const co = require( 'co' );
 const pkg = require( '../package.json' );
 const sign = require( '../lib' );
-
-const cookieStore = sign.store.cookie;
-const recordsStore = sign.store.records;
+const cookieStore = require( './store/cookie' );
+const recordsStore = require( './store/records' );
 
 updateNotifier( { pkg: pkg } ).notify();
 
@@ -38,6 +37,8 @@ if ( process.argv && process.argv.length > 2 ) {
 }
 
 function main() {
+	require( './cache' )();
+
 	const Service = sign.Service;
 	const service = sign.service;
 	const createJar = sign.createJar;
@@ -69,7 +70,7 @@ function main() {
 				console.log( '开始签到' );
 			}
 
-			const likes = yield service.getlikesFast( bduss );
+			const likes = ( yield service.getlikesFast( bduss ) ) || [];
 			const signed = recordsStore.load( 'signed' );
 			const filtered = likes.filter( function ( like ) {
 				return !~signed.indexOf( like );

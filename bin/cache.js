@@ -1,4 +1,4 @@
-const event = require( './event' );
+const event = require( '../lib/event' );
 const store = require( './store/records' );
 
 module.exports = function () {
