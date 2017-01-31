@@ -1,6 +1,6 @@
 {
   "name": "tieba-sign",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "tieba-sign",
   "main": "lib/index.js",
   "bin": {
