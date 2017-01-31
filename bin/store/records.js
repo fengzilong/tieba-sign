@@ -4,7 +4,6 @@ const getDate = _.getDate;
 
 const conf = new Conf( {
 	configName: 'records',
-	cwd: process.cwd(),
 } );
 
 module.exports = {

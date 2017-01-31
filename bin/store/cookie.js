@@ -2,7 +2,6 @@ const Conf = require( 'conf' );
 
 const conf = new Conf( {
 	configName: 'cookie',
-	cwd: process.cwd(),
 } );
 
 module.exports = {
