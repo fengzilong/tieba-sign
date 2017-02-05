@@ -13,26 +13,32 @@ updateNotifier( { pkg: pkg } ).notify();
 
 const argv = yargs
 	.alias( 's', 'skipCache' )
-	.command( 'cookie', 'store cookie locally', function () {
+	.command( 'cookie', 'store cookie locally' )
+	.command( 'clear', 'clear stored data' )
+	.argv;
 
-	}, function ( argv ) {
+const handlers = {
+	cookie: function ( argv ) {
 		const bduss = argv._[ 1 ];
 		cookieStore.save( {
 			bduss: bduss
 		} );
 		console.log( 'saved' );
-	} )
-	.command( 'clear', 'clear stored data', function () {
-
-	}, function ( argv ) {
+	},
+	clear: function () {
 		cookieStore.clear();
 		recordsStore.clear();
 		console.log( 'cleared' );
-	} )
-	.argv;
+	}
+}
 
-// if no command provided
-if ( argv._.length === 0 ) {
+const commandName = argv._[ 0 ];
+const handler = handlers[ commandName ];
+
+// if command matched
+if ( typeof handler === 'function' ) {
+	handler( argv );
+} else {
 	main( {
 		skipCache: !!argv.skipCache
 	} );
