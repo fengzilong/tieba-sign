@@ -2,7 +2,7 @@
 'use strict';
 
 const updateNotifier = require( 'update-notifier' );
-const program = require( 'commander' );
+const yargs = require( 'yargs' );
 const co = require( 'co' );
 const pkg = require( '../package.json' );
 const sign = require( '../lib' );
@@ -11,31 +11,38 @@ const recordsStore = require( './store/records' );
 
 updateNotifier( { pkg: pkg } ).notify();
 
-program
-	.command( 'cookie <bduss>' )
-	.action( function ( bduss ) {
+const argv = yargs
+	.alias( 's', 'skipCache' )
+	.command( 'cookie', 'store cookie locally', function () {
+
+	}, function ( argv ) {
+		const bduss = argv._[ 1 ];
 		cookieStore.save( {
 			bduss: bduss
 		} );
 		console.log( 'saved' );
-	} );
+	} )
+	.command( 'clear', 'clear stored data', function () {
 
-program
-	.command( 'clear' )
-	.action( function () {
+	}, function ( argv ) {
 		cookieStore.clear();
 		recordsStore.clear();
 		console.log( 'cleared' );
-	} );
+	} )
+	.argv;
 
-if ( process.argv && process.argv.length > 2 ) {
-	program.parse( process.argv );
-} else {
-	main();
+// if no command provided
+if ( argv._.length === 0 ) {
+	main( {
+		skipCache: !!argv.skipCache
+	} );
 }
 
-function main() {
+function main( options ) {
 	require( './cache' )();
+
+	options = options || {};
+	const skipCache = options.skipCache;
 
 	const Service = sign.Service;
 	const service = sign.service;
@@ -69,8 +76,8 @@ function main() {
 			}
 
 			const likes = ( yield service.getlikesFast( bduss ) ) || [];
-			const signed = recordsStore.load( 'signed' );
-			const filtered = likes.filter( function ( like ) {
+			const signed = skipCache ? [] : recordsStore.load( 'signed' );
+			const filtered = skipCache ? likes : likes.filter( function ( like ) {
 				return !~signed.indexOf( like );
 			} );
 			console.log( '共', likes.length, '个贴吧，已签到', signed.length, '个\n' );
