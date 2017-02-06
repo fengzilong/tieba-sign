@@ -25,9 +25,10 @@ $ ts
 
 Command | Description
 ------- | -----------
-ts cookie | save cookie
+ts cookie | save cookie locally
 ts | sign
-ts clear | clear, includes cookie
+ts -s | skip cache and sign
+ts clear | clear stored data, including cookie
 
 ## License
 
