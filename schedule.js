@@ -38,7 +38,7 @@ event.on( 'sign:end', function ( data ) {
   report.push( '签到成功/已签到：' + ( count.success + count.alreadySigned ) )
   report.push( '不支持签到：' + count.notSupported )
   report.push( '签到失败：' + count.failed )
-  const reportString = report.join( '\n' )
+  const reportString = report.join( '\n\n' )
 
   if ( PUSH_KEY ) {
     request( {
